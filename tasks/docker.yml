@@ -1,0 +1,35 @@
+---
+- name: YС Unified Agent | Create config directory
+  file:
+    dest: "{{ yc_unified_agent_conf_dir }}"
+    state: directory
+    mode: "0777"
+    owner: root
+    group: root
+
+- name: YС Unified Agent | Ensure config.yml template
+  template:
+    src: config.yml.j2
+    dest: "{{ yc_unified_agent_conf_dir }}/config.yml"
+    mode: "0644"
+    owner: "root"
+    group: "root"
+
+- name: YС Unified Agent | Start docker container
+  community.docker.docker_compose_v2:
+    state: present
+    project_name: yc_unified_agent
+    definitions:
+      service:
+        yc_unified_agent:
+          image: "{{ yc_unified_agent_image }}:{{ yc_unified_agent_version }}"
+          container_name: "{{ yc_unified_agent_container_name }}"
+          restart: always
+          volumes: "{{ yc_unified_agent_volumes }}"
+          ports: "{{ yc_unified_agent_ports }}"
+          environment:
+            FOLDER_ID: "{{ yc_unified_agent_folder_id }}"
+      networks:
+        default:
+          name: "{{ yc_unified_agent_network_name }}"
+          external: true

@@ -1,0 +1,6 @@
+---
+- name: YС Unified Agent | Setup container
+  include_tasks: docker.yml
+  tags: 
+    - install
+  when: yc_unified_agent_dockerize

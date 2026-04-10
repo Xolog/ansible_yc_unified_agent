@@ -1,0 +1,69 @@
+---
+yc_unified_agent_folder_id: "id-your-folder"
+
+yc_unified_agent_dockerize: true
+yc_unified_agent_conf_dir: /var/lib/yc_unified_agent
+yc_unified_agent_image: "cr.yandex/yc/unified-agent"
+yc_unified_agent_version: "latest"
+yc_unified_agent_container_name: "yc_unified_agent"
+
+yc_unified_agent_volumes:
+  - "{{ yc_unified_agent_conf_dir }}/config.yml:/etc/yandex/unified_agent/config.yml"
+  - "/proc:/ua_proc"
+
+yc_unified_agent_network_name: "prom_network"
+
+yc_unified_agent_address: "127.0.0.1"
+yc_unified_agent_port: "16241"
+yc_unified_agent_ports:
+  - "{{ yc_unified_agent_address }}:{{ yc_unified_agent_port }}:16241"
+
+yc_unified_agent_config: |
+  status:
+   port: "16241"
+
+  storages:
+    - name: main
+      plugin: fs
+      config:
+        directory: /var/lib/yandex/unified_agent/main
+        max_partition_size: 100mb
+        max_segment_size: 10mb
+
+  channels:
+    - name: cloud_monitoring
+      channel:
+        pipe:
+          - storage_ref:
+              name: main
+        output:
+          plugin: yc_metrics
+          config:
+            folder_id: "$FOLDER_ID"
+            iam:
+              cloud_meta: {}
+
+  routes:
+    - input:
+        plugin: linux_metrics
+        config:
+          namespace: sys
+      channel:
+        channel_ref:
+          name: cloud_monitoring
+
+    - input:
+        plugin: agent_metrics
+        config:
+          namespace: ua
+      channel:
+        pipe:
+          - filter:
+              plugin: filter_metrics
+              config:
+                match: "{scope=health}"
+        channel_ref:
+          name: cloud_monitoring
+
+  import:
+    - /etc/yandex/unified_agent/conf.d/*.yml

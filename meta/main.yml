@@ -1,0 +1,28 @@
+galaxy_info:
+  author: Pavel Antsupov
+  description: Install and configure Yandex Cloud Unified Agent as a Docker container to collect and ship system metrics to Yandex Cloud Monitoring
+
+  license: MIT
+
+  min_ansible_version: "2.12"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+        - noble
+
+  galaxy_tags:
+    - monitoring
+    - yandex
+    - yandexcloud
+    - docker
+    - metrics
+    - observability
+    - cloud
+    - unified_agent
+    - linux_metrics
+    - cloudmonitoring
+
+dependencies: []
