@@ -73,7 +73,7 @@ yc_unified_agent_ports:
   - `agent_metrics` — метрики самого агента с namespace `ua` (только health)
 - **Import** — подгрузка дополнительных конфигураций из `/etc/yandex/unified_agent/conf.d/*.yml`
 
-Подстановка `FOLDER_ID` в конфиге происходит через переменную окружения контейнера.
+Подстановка `FOLDER_ID` в конфиге происходит через конфиг.
 
 ---
 

@@ -33,6 +33,7 @@
           volumes: "{{ yc_unified_agent_volumes }}"
           ports: "{{ yc_unified_agent_ports }}"
           entrypoint: ""
+          extra_hosts: "{{ yc_unified_agent_extra_hosts }}"
       networks:
         default:
           name: "{{ yc_unified_agent_network_name }}"

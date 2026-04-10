@@ -6,6 +6,8 @@ yc_unified_agent_conf_dir: /var/lib/yc_unified_agent
 yc_unified_agent_image: "cr.yandex/yc/unified-agent"
 yc_unified_agent_version: "latest"
 yc_unified_agent_container_name: "yc_unified_agent"
+yc_unified_agent_extra_hosts:
+  - "host.docker.internal:host-gateway"
 
 yc_unified_agent_volumes:
   - "{{ yc_unified_agent_conf_dir }}/config.yml:/etc/yandex/unified_agent/config.yml"
