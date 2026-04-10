@@ -32,8 +32,6 @@
           restart: always
           volumes: "{{ yc_unified_agent_volumes }}"
           ports: "{{ yc_unified_agent_ports }}"
-          environment:
-            FOLDER_ID: "{{ yc_unified_agent_folder_id }}"
           entrypoint: ""
       networks:
         default:
