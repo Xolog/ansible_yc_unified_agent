@@ -24,8 +24,8 @@
   community.docker.docker_compose_v2:
     state: present
     project_name: yc_unified_agent
-    definitions:
-      service:
+    definition:
+      services:
         yc_unified_agent:
           image: "{{ yc_unified_agent_image }}:{{ yc_unified_agent_version }}"
           container_name: "{{ yc_unified_agent_container_name }}"
@@ -34,6 +34,7 @@
           ports: "{{ yc_unified_agent_ports }}"
           environment:
             FOLDER_ID: "{{ yc_unified_agent_folder_id }}"
+          entrypoint: ""
       networks:
         default:
           name: "{{ yc_unified_agent_network_name }}"
